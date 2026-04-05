@@ -1,43 +1,56 @@
-# Job Portal Web Application
+# Job Plus - Job Seeker & Recruiter Platform
 
 A full-featured job portal platform built with Laravel that connects job seekers and employers seamlessly.
 
 ## Features
 
-- **For Job Seekers:**
-  - Browse and search jobs by category, location, or keywords
-  - Create and manage profile with resume upload
-  - Apply to jobs with one click
-  - Track application status
+### For Job Seekers
+- Browse and search jobs by category, location, or keywords
+- Create and manage professional profile with resume upload
+- Apply to jobs with one click
+- Track application status in real-time
+- Save favorite jobs for later
+- View application history
 
-- **For Recruiters/Employers:**
-  - Post and manage job listings
-  - Review applications and manage candidates
-  - Shortlist or reject applicants
-  - Communicate with job seekers
+### For Employers/Recruiters
+- Post and manage job listings
+- Review incoming applications
+- Shortlist or reject applicants
+- Manage company profile
+- View applicant analytics and statistics
+- Communicate with job seekers
 
-- **Admin Panel:**
-  - Manage users, jobs, and categories
-  - Approve/decline job postings
-  - Site-wide settings
+### For Admins
+- Approve/reject job postings
+- Manage all users (job seekers & employers)
+- Manage job categories
+- Generate reports and analytics
+- Site-wide settings management
 
 ## Tech Stack
 
-- **Framework:** Laravel
-- **Database:** MySQL
-- **Frontend:** Blade, Bootstrap
-- **Authentication:** Laravel Breeze/Jetstream
-- **Storage:** Laravel Filesystem (for resumes/photos)
+- **Backend**: Laravel 11.x (PHP 8.2+)
+- **Database**: MySQL
+- **Frontend**: Blade Templates, Bootstrap 5.3
+- **Authentication**: Laravel Breeze/Jetstream
+- **Storage**: Laravel Filesystem (for resumes & company logos)
+- **Email**: Laravel Mail (SMTP)
+- **Security**: CSRF protection, prepared statements, role-based middleware
 
 ## Installation
+
+### 1. Prerequisites
+
+Make sure you have installed:
+- PHP >= 8.2
+- Composer
+- MySQL
+- XAMPP/WAMP (for local development)
+
+### 2. Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/job-portal.git
 cd job-portal
-composer install
-npm install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-php artisan db:seed
-php artisan serve
+
+
