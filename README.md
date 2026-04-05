@@ -45,7 +45,7 @@ Make sure you have installed:
 - PHP >= 8.2
 - Composer
 - MySQL
-- XAMPP/WAMP (for local development)
+- XAMPP
 
 ### 2. Clone the Repository
 
