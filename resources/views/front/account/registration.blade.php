@@ -43,68 +43,98 @@
 
 @section('customJs')
 <script>
-$("#registrationFOrm").submit(function(e){
-    e. preventDefault();
+$("#RegistrationForm").submit(function(e){
+    e.preventDefault();
 
     $.ajax({
         url:'{{ route("account.processRegistration") }}',
         type:'post',
         data: $("#registrationForm").serializeArray(),
-        datatype: 'json',
+        dataType: 'json',
         success:function(response){
             if (response.status == false){
                 var errors = response.errors;
                 if (errors.name){
-                    $("#name").addclass('is-invalid')
+                    $("#name").addClass('is-invalid')
                     .siblings('p')
-                    .addclass('invalid-feedback')
+                    .addClass('invalid-feedback')
                     .html(errors.name)
                 }else{
-                    $("#name").removeclass('is-invalid')
+                    $("#name").removeClass('is-invalid')
                     .siblings('p')
-                    .removeclass('invalid-feedback')
+                    .removeClass('invalid-feedback')
                     .html('')
 
                 }
 
                 if (errors.email){
-                    $("#email").addclass('is-invalid')
+                    $("#email").addClass('is-invalid')
                     .siblings('p')
-                    .addclass('invalid-feedback')
+                    .addClass('invalid-feedback')
                     .html(errors.email)
                 }else{
-                    $("#email").removeclass('is-invalid')
+                    $("#email").removeClass('is-invalid')
                     .siblings('p')
-                    .removeclass('invalid-feedback')
+                    .removeClass('invalid-feedback')
                     .html('')
 
                 }
 
                 if (errors.password){
-                    $("#password").addclass('is-invalid')
+                    $("#password").addClass('is-invalid')
                     .siblings('p')
-                    .addclass('invalid-feedback')
+                    .addClass('invalid-feedback')
                     .html(errors.password)
                 }else{
-                    $("#password").removeclass('is-invalid')
+                    $("#password").removeClass('is-invalid')
                     .siblings('p')
-                    .removeclass('invalid-feedback')
+                    .removeClass('invalid-feedback')
                     .html('')
 
                 }
 
                 if (errors.confirm_password){
-                    $("#confirm_password").addclass('is-invalid')
+                    $("#confirm_password").addClass('is-invalid')
                     .siblings('p')
-                    .addclass('invalid-feedback')
-                    .html(errors.password)
+                    .addClass('invalid-feedback')
+                    .html(errors.confirm_password)
                 }else{
-                    $("#confirm_password").removeclass('is-invalid')
+                    $("#confirm_password").removeClass('is-invalid')
                     .siblings('p')
-                    .removeclass('invalid-feedback')
+                    .removeClass('invalid-feedback')
                     .html('')
 
+                } else{
+                   
+                    $("#name").removeClass('is-invalid')
+                    .siblings('p')
+                    .removeClass('invalid-feedback')
+                    .html('')
+
+                    $("#email").removeClass('is-invalid')
+                    .siblings('p')
+                    .removeClass('invalid-feedback')
+                    .html('')
+
+                    $("#password").removeClass('is-invalid')
+                    .siblings('p')
+                    .removeClass('invalid-feedback')
+                    .html('')
+
+                    $("#confirm_password").removeClass('is-invalid')
+                    .siblings('p')
+                    .removeClass('invalid-feedback')
+                    .html('')
+
+                    window.location.href='{{ route("account.login") }}';
+
+
+
+
                 }
+                
+
+                
             }
 
         }
