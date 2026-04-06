@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class AccountController extends Controller
 {
@@ -12,7 +14,7 @@ class AccountController extends Controller
 
 
     }
-//wil save a user
+//will save a user
     public function processRegistration(Request $request){
         $validator = validator::make($request->all(),[
             'name' => 'required',
