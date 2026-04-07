@@ -36,7 +36,7 @@
                     </form>                    
                 </div>
                 <div class="mt-4 text-center">
-                    <p>Have an account? <a  href="login.html">Login</a></p>
+                    <p>Have an account? <a  href="{{ route('account.login') }}">Login</a></p>
                 </div>
             </div>
         </div>
@@ -54,87 +54,92 @@ $("#RegistrationForm").submit(function(e){
         type:'post',
         data: $("#RegistrationForm").serializeArray(),
         dataType: 'json',
-        success: function(response) {
-            if (response.status == false) {
+        success:function(response){
+            if (response.status == false){
                 var errors = response.errors;
-                
-                if (errors.name) {
+                if (errors.name){
                     $("#name").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.name);
-                } else {
+                    .html(errors.name)
+                }else{
                     $("#name").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('');
+                    .html('')
+
                 }
 
-                if (errors.email) {
+                if (errors.email){
                     $("#email").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.email);
-                } else {
+                    .html(errors.email)
+                }else{
                     $("#email").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('');
+                    .html('')
+
                 }
 
-                if (errors.password) {
+                if (errors.password){
                     $("#password").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.password);
-                } else {
+                    .html(errors.password)
+                }else{
                     $("#password").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('');
+                    .html('')
+
                 }
 
-                if (errors.confirm_password) {
+                if (errors.confirm_password){
                     $("#confirm_password").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.confirm_password);
-                } else {
+                    .html(errors.confirm_password)
+                }else{
                     $("#confirm_password").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('');
-                }
-            } else {
-                // Success case - clear errors and redirect
+                    .html('')
+
+                } 
+                
+            } else{
                 $("#name").removeClass('is-invalid')
                 .siblings('p')
                 .removeClass('invalid-feedback')
-                .html('');
+                .html('')
 
                 $("#email").removeClass('is-invalid')
                 .siblings('p')
                 .removeClass('invalid-feedback')
-                .html('');
+                .html('')
 
                 $("#password").removeClass('is-invalid')
                 .siblings('p')
                 .removeClass('invalid-feedback')
-                .html('');
+                .html('')
 
                 $("#confirm_password").removeClass('is-invalid')
                 .siblings('p')
                 .removeClass('invalid-feedback')
-                .html('');
+                .html('')
 
-                window.location.href = '{{ route("account.login") }}';
+                window.location.href='{{ route("account.login") }}';
             }
-        },
-        error: function(xhr, status, error) {
-            console.log("AJAX Error:", error);
-            alert("Something went wrong. Please try again.");
+                
+
+
         }
+
     });
+
 });    
 </script>
+
 @endsection
