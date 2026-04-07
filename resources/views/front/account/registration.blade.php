@@ -8,7 +8,10 @@
             <div class="col-md-5">
                 <div class="card shadow border-0 p-5">
                     <h1 class="h3">Register</h1>
-                    <form action="" name="RegistrationForm" id="RegistrationForm">
+                    {{-- <form method="POST" action="{{ route('posts.store') }}"> --}}
+                
+                    <form method="POST" action="{{ route('account.processRegistration') }}" name="RegistrationForm" id="RegistrationForm">
+                        @csrf
                         <div class="mb-3">
                             <label for="" class="mb-2">Name*</label>
                             <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
@@ -29,7 +32,7 @@
                             <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Please Confirm Password">
                             <p></p>
                         </div> 
-                        <button class="btn btn-primary mt-2">Register</button>
+                        <button type="submit" class="btn btn-primary mt-2">Register</button>
                     </form>                    
                 </div>
                 <div class="mt-4 text-center">
@@ -49,99 +52,89 @@ $("#RegistrationForm").submit(function(e){
     $.ajax({
         url:'{{ route("account.processRegistration") }}',
         type:'post',
-        data: $("#registrationForm").serializeArray(),
+        data: $("#RegistrationForm").serializeArray(),
         dataType: 'json',
-        success:function(response){
-            if (response.status == false){
+        success: function(response) {
+            if (response.status == false) {
                 var errors = response.errors;
-                if (errors.name){
+                
+                if (errors.name) {
                     $("#name").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.name)
-                }else{
+                    .html(errors.name);
+                } else {
                     $("#name").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('')
-
+                    .html('');
                 }
 
-                if (errors.email){
+                if (errors.email) {
                     $("#email").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.email)
-                }else{
+                    .html(errors.email);
+                } else {
                     $("#email").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('')
-
+                    .html('');
                 }
 
-                if (errors.password){
+                if (errors.password) {
                     $("#password").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.password)
-                }else{
+                    .html(errors.password);
+                } else {
                     $("#password").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('')
-
+                    .html('');
                 }
 
-                if (errors.confirm_password){
+                if (errors.confirm_password) {
                     $("#confirm_password").addClass('is-invalid')
                     .siblings('p')
                     .addClass('invalid-feedback')
-                    .html(errors.confirm_password)
-                }else{
+                    .html(errors.confirm_password);
+                } else {
                     $("#confirm_password").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback')
-                    .html('')
-
-                } else{
-                   
-                    $("#name").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback')
-                    .html('')
-
-                    $("#email").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback')
-                    .html('')
-
-                    $("#password").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback')
-                    .html('')
-
-                    $("#confirm_password").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback')
-                    .html('')
-
-                    window.location.href='{{ route("account.login") }}';
-
-
-
-
+                    .html('');
                 }
-                
+            } else {
+                // Success case - clear errors and redirect
+                $("#name").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-                
+                $("#email").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
+
+                $("#password").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
+
+                $("#confirm_password").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
+
+                window.location.href = '{{ route("account.login") }}';
             }
-
+        },
+        error: function(xhr, status, error) {
+            console.log("AJAX Error:", error);
+            alert("Something went wrong. Please try again.");
         }
-
     });
-
 });    
 </script>
-
 @endsection

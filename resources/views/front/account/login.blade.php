@@ -5,9 +5,9 @@
 <section class="section-5">
     <div class="container my-5">
         <div class="py-lg-2">&nbsp;</div>
-        @if(session::has('success'))
+        @if(Session::has('success'))
         <div class="alert alert.success">
-            <p>{{ Session::get('success') }}</p>
+            <p class="mb-0 pb=0">{{ Session::get('success') }}</p>
         @endif
         <div class="row d-flex justify-content-center">
             <div class="col-md-5">
