@@ -3,8 +3,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\RedirectIfAuthenticated;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,12 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->alias([
-            'auth' => Authenticate::class,
-            'guest' => RedirectIfAuthenticated::class,
-        ]);
+        
+        // 1. If a user is NOT logged in and hits a protected route, 
+        // redirect them to your custom login page.
+        $middleware->redirectGuestsTo(fn () => route('account.login'));
+
+        // 2. If a user IS already logged in and tries to visit the login 
+        // or register page, redirect them to their profile.
+        $middleware->redirectUsersTo(fn () => route('account.profile'));
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
-    
