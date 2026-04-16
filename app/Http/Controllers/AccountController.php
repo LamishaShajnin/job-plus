@@ -64,7 +64,7 @@ class AccountController extends Controller
         if ($validator->passes()) {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 
-                // CRITICAL: Regenerate session to fix the "logged out" redirect bug
+                // Regenerate session to prevent fixation attacks
                 $request->session()->regenerate();
 
                 return redirect()->intended(route('account.profile'));
@@ -81,26 +81,27 @@ class AccountController extends Controller
     // Show profile (Protected by 'auth' middleware)
     public function profile()
     {
+        
         $id = Auth::user()->id;
+        $user = User::where('id', $id)->first();
         
-        $user = User::where('id',$id)->first();
-        
-        return view('front.account.profile',[
+        return view('front.account.profile', [
             'user' => $user
         ]);
     }
 
-    public function updateProfile(Request $request){
+    // Update Profile logic (AJAX)
+    public function updateProfile(Request $request)
+    {
         $id = Auth::user()->id;
 
-
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|min:5|max:20',
-            //table,col,exception,id
-            'email' => 'required|email|unique:users,cemail,'.$id.',id'
+            // Corrected: unique check on 'email' column, ignoring the current user's ID
+            'email' => 'required|email|unique:users,email,'.$id.',id'
         ]);
 
-        if ($validator->passes()){
+        if ($validator->passes()) {
             $user = User::find($id);
             $user->name = $request->name;
             $user->email = $request->email;
@@ -109,17 +110,17 @@ class AccountController extends Controller
             $user->save();
 
             session()->flash('success', 'Profile updated successfully');
+
             return response()->json([
                 'status' => true,
                 'errors' => []
             ]);
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()
             ]);
         }
-
     }
 
     // Process Logout
@@ -127,10 +128,40 @@ class AccountController extends Controller
     {
         Auth::logout();
 
-        // Fully clear the session to prevent "ghost" sessions
+        // Clear session data
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 
         return redirect()->route('account.login')->with('success', 'You have been logged out.');
+    }
+
+    public function updateProfilePic(Request $request){
+        $id = Auth::user()->id;
+        $validator = validator::make($request->all(),[
+            'image' => 'required|image'
+
+        ]);
+
+        if ($validator->passes()){
+            $image = $request->image;
+            $ext = $image->getClientOriginalExtension();
+            $imageName = $id.'-'.time().'.'.$ext;  //id-34326778.png
+            $image->move(public_path('/profile_pic/'),$imageName);
+
+            User::where('id',$id)->update(['image'=>$imageName]);
+
+            session()->flash('success','Profile picture updated successfully');
+            
+            return response()->json([
+                'status' => true,
+                'errors' => []
+            ]);
+
+        }else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 }
