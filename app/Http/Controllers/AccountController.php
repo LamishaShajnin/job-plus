@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\JobType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -168,8 +169,34 @@ class AccountController extends Controller
 
     public function createJob(){
         $categories = Category::orderBy('name','ASC')->where('status',1)->get();
+        $jobtypes = JobType::orderBy('name','ASC')->where('status',1)->get();
         return view('front.account.job.create',[
-            'categories' => $categories
+            'categories' => $categories,
+            'jobTypes' => $jobtypes
         ]);
+    }
+
+    public function saveJob(Request $request){
+        $rules = [
+            'title' => 'required|min:5|max:200',
+            'category' => 'required',
+            'jobType' => 'required',
+            'vacancy' => 'required|integer',
+            'location' => 'required|max:50',
+            'description' => 'required',
+            'company_name' => 'required|max:75',
+        
+        ];
+        
+
+        $validator = Validator::make($request->all());
+        if ($validator->passes()){
+
+        }else{
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 }
