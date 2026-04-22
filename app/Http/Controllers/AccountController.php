@@ -194,6 +194,7 @@ class AccountController extends Controller
         $validator = Validator::make($request->all(),$rules);
         if ($validator->passes()){
             $job = new Job();
+            $job->user_id = Auth::user()->id;
             $job->title = $request->title;
             $job->category_id = $request->category;
             $job->job_type_id = $request->jobType;
@@ -211,12 +212,14 @@ class AccountController extends Controller
             $job->company_website= $request->website;
             $job->save();
 
+            session()->flash('success','Job added successfully');
+
             return response()->json([
                 'status' => true,
                 'errors' => []
             ]);
 
-            session()->flash('success','Job added successfully');
+            
 
 
         }else{
