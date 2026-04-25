@@ -7,7 +7,7 @@
             <div class="col">
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                         <li class="breadcrumb-item active">Account Settings</li>
                     </ol>
                 </nav>
@@ -58,47 +58,51 @@
                                     @if ($jobs->isNotEmpty())
                                         @foreach ($jobs as $job)
                                         <tr class="active">
-                                      
                                             <td>
-                                               
-                                                <div class="job-name fw-500">Web Developer</div>
-                                                <div class="info1">Fulltime . Noida</div>
+                                                <div class="job-name fw-500">{{ $job->title }}</div>
+                                                <div class="info1">
+                                                    {{ $job->jobType->name ?? 'N/A' }} . 
+                                                    {{ $job->location }}
+                                                </div>
                                             </td>
-                                            <td>05 Jun, 2023</td>
-                                            <td>130 Applications</td>
+                                            <td>{{ $job->created_at->format('d M, Y') }}</td>
+                                            <td>0 Applications</td>
                                             <td>
-                                               
-                                                <div class="job-status text-capitalize">active</div>
+                                                <div class="job-status text-capitalize">
+                                                    @if($job->status == 1)
+                                                        active
+                                                    @else
+                                                        inactive
+                                                    @endif
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="action-dots float-end">
-                                                    
                                                     <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                       
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+                                                        <li><a class="dropdown-item" href="#"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
                                                         <li><a class="dropdown-item" href="{{ route('account.editJob', $job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        
+                                             </td>
+                                         </tr>
                                         @endforeach       
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center">No jobs found. <a href="{{ route('account.createJob') }}">Post your first job</a></td>
+                                        </tr>
                                     @endif
-                                   
                                 </tbody>
-                                
                             </table>
                         </div>
                         <div>
                             {{ $jobs->links() }}
+                        </div>
                     </div>
                 </div> 
-
-                              
             </div>
         </div>
     </div>
@@ -106,5 +110,30 @@
 @endsection
 
 @section('customJs')
-
+<script type="text/javascript">
+function deleteJob(jobId){
+    if(confirm("Are you sure you want to delete?")){
+        $.ajax({
+            url: '{{ route("account.deleteJob") }}',
+            type: 'post',
+            data: {jobId: jobId},
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            success: function(response){
+                if(response.status == true){
+                    window.location.href = '{{ route("account.myJobs") }}';
+                } else {
+                    alert('Error deleting job');
+                }
+            },
+            error: function(xhr) {
+                console.log('Error:', xhr.responseText);
+                alert('An error occurred while deleting the job');
+            }
+        });
+    }
+}
+</script>
 @endsection

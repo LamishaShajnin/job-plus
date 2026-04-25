@@ -19,7 +19,7 @@
             </div>
             <div class="col-lg-9">
                
-                <form method="POST" action="{{ route('account.saveJob') }}" name="createJobForm" id="createJobForm">
+                <form method="POST" action="{{ route('account.saveJob') }}" name="editJobForm" id="editJobForm">
                     @csrf
                     <div class="card border-0 shadow mb-4">
                         <div class="card-body card-form p-4">
@@ -153,15 +153,16 @@
 <script>
     // Add CSRF Token to all AJAX headers
 
-$("#createJobForm").submit(function(e){
+$("#editJobForm").submit(function(e){
         e.preventDefault();
-
+        $("button[type='submit']").prop('disable',true);
         $.ajax({
-            url: '{{ route("account.saveJob") }}',
+            url: '{{ route("account.updateJob", $job->id) }}',
             type: 'post',
-            data: $("#createJobForm").serializeArray(),
+            data: $("#editJobForm").serializeArray(),
             dataType: 'json',
             success: function(response){
+                $("button[type='submit']").prop('disable',false);
                 if(response.status == true){
                     $("#title").removeClass('is-invalid')
                             .siblings('p')

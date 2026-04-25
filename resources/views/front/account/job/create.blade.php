@@ -150,18 +150,20 @@
 @endsection
 
 @section('customJs')
+
 <script>
     // Add CSRF Token to all AJAX headers
 
 $("#createJobForm").submit(function(e){
         e.preventDefault();
-
+        $("button[type='submit']").prop('disable',true);
         $.ajax({
             url: '{{ route("account.saveJob") }}',
             type: 'post',
             data: $("#createJobForm").serializeArray(),
             dataType: 'json',
             success: function(response){
+                $("button[type='submit']").prop('disable',false);
                 if(response.status == true){
                     $("#title").removeClass('is-invalid')
                             .siblings('p')
