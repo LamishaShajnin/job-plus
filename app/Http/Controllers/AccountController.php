@@ -239,4 +239,23 @@ class AccountController extends Controller
             'jobs' => $jobs
         ]);
     }
+
+    public function editJob(Request $request, $id){
+       
+        $categories = Category::orderBy('name','ASC')->where('status',1)->get();
+        $jobTypes = JobType::orderBy('name','ASC')->where('status',1)->get();
+        
+        $job = Job::where([
+            'user_id' => Auth::user()->id,
+            'id' => $id
+        ])->first();
+        if ($job == null){
+            abort(404);
+        }
+        return view('front.account.job.edit',[
+            'categories' => $categories,
+            'jobTypes' => $jobTypes,
+            'job' => $job,
+        ]);
+    }
 }
