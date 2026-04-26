@@ -10,8 +10,8 @@
             <div class="col-6 col-md-2">
                 <div class="align-end">
                     <select name="sort" id="sort" class="form-control">
-                        <option value="">Latest</option>
-                        <option value="">Oldest</option>
+                        <option value="1">Latest</option>
+                        <option value="0">Oldest</option>
                     </select>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                             @if ($jobTypes->isNotEmpty())
                                 @foreach ($jobTypes as $jobType)
                                 <div class="form-check mb-2"> 
-                                    <input class="form-check-input " name="job_type" type="checkbox" value="{{ $jobType->id }}" id="job-type-{{  $jobType->id }}">    
+                                    <input {{ (in_array($jobType->id,$jobTypeArray))? 'checked':'' }} class="form-check-input " name="job_type" type="checkbox" value="{{ $jobType->id }}" id="job-type-{{  $jobType->id }}">    
                                     <label class="form-check-label " for="job-type-{{  $jobType->id }}">{{ $jobType->name }}</label>
                                 </div>    
                                 @endforeach
@@ -148,6 +148,7 @@
         var location = $("#location").val();
         var category = $("#category").val();
         var experience = $("#experience").val();
+        var sort = $("#sort").val();
 
         var checkedJobTypes = $("input:checkbox[name = 'job_type']:checked").map(function(){
             return $(this).val();
@@ -171,6 +172,8 @@
         if (checkedJobTypes.length >0){
             url += '&jobType='+checkedJobTypes;
         }
+        url += '&sort='+sort;
+        
         window.location.href=url;
     });
 </script>

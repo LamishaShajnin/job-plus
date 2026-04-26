@@ -36,6 +36,7 @@ class JobsController extends Controller
         }
 
         
+        $jobTypeArray = [];
          //search using jobType
         if(!empty($request->jobType)){
 
@@ -57,6 +58,7 @@ class JobsController extends Controller
             'categories' => $categories,
             'jobTypes' => $jobTypes,
             'jobs' => $jobs,
+            'jobTypeArray' => $jobTypeArray,
         ]);
     }
 }
