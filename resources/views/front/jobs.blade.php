@@ -10,8 +10,8 @@
             <div class="col-6 col-md-2">
                 <div class="align-end">
                     <select name="sort" id="sort" class="form-control">
-                        <option value="1">Latest</option>
-                        <option value="0">Oldest</option>
+                        <option value="1" {{ (Request::get('sort')=='1')? 'selected':'' }}>Latest</option>
+                        <option value="0"{{ (Request::get('sort')=='0')? 'selected':'' }}>Oldest</option>
                     </select>
                 </div>
             </div>
@@ -79,6 +79,7 @@
                         </div>
                         
                         <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="{{ route("jobs") }}" class="btn btn-secondary mt-3">Reset</a>
                     </div>
                 </form>
             </div>
@@ -102,9 +103,9 @@
                                                        <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
                                                        <span class="ps-1">{{ $job->jobType->name }}</span>
                                                     </p>
-                                                    <p>Keywords: {{ $job->keywords }}</p>
+                                                    {{--  <p>Keywords: {{ $job->keywords }}</p>
                                                     <p>Category: {{ $job->category->name }}</p>
-                                                    <p>Experience: {{ $job->experience }}</p>
+                                                    <p>Experience: {{ $job->experience }}</p>--}}
                                                     @if (!is_null($job->salary))
                                                     <p class="mb-0">
                                                        <span class="fw-bolder"><i class="fa fa-usd"></i></span>
@@ -116,7 +117,7 @@
                                                 </div>
 
                                                 <div class="d-grid mt-3">
-                                                    <a href="job-detail.html" class="btn btn-primary btn-lg">Details</a>
+                                                    <a href="{{ route('jobDetail',$job->id) }}" class="btn btn-primary btn-lg">Details</a>
                                                 </div>
                                            </div>
                                     </div>
@@ -139,7 +140,7 @@
 
 @section('customJs')
 <script>
-    $("#searhForm").submit(function(e){
+    $("#searchForm").submit(function(e){
         e.preventDefault();
 
         var url = '{{ route("jobs") }}?';
@@ -175,6 +176,9 @@
         url += '&sort='+sort;
         
         window.location.href=url;
+    });
+    $("#sort").change(function(){
+        $("#searchForm").submit();
     });
 </script>
 

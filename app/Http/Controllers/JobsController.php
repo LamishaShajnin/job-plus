@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class JobsController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $categories = Category::where('status',1)->get();
         $jobTypes = JobType::where('status',1)->get();
 
@@ -41,7 +41,7 @@ class JobsController extends Controller
         if(!empty($request->jobType)){
 
             $jobTypeArray= explode(',', $request->jobType);
-            $jobs = $jobs->where('job_type_id',$jobTypeArray);
+            $jobs = $jobs->whereIn ('job_type_id',$jobTypeArray);
 
         }
 
@@ -52,8 +52,17 @@ class JobsController extends Controller
         }
 
 
-        $jobs = $jobs->with(['jobType','category'])->orderBy('created_at','DESC')->paginate(9);
+        $jobs = $jobs->with(['jobType','category']);
+        
+        
+        if($request->sort=='0'){
+            $jobs = $jobs->orderBy('created_at','ASC');
 
+        }else{
+            $jobs = $jobs->orderBy('created_at','DESC');
+        }
+        
+        $jobs = $jobs->paginate(9);
         return view('front.jobs',[
             'categories' => $categories,
             'jobTypes' => $jobTypes,
@@ -61,4 +70,16 @@ class JobsController extends Controller
             'jobTypeArray' => $jobTypeArray,
         ]);
     }
+
+    public function detail($id){
+
+        $job = Job::where([
+                            'id'=>$id, 
+                            'status' =>  1
+                         ])->first();
+        dd($job);
+        return view('front.jobDetail');
+    }
+        
+    
 }
