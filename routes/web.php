@@ -1,9 +1,12 @@
 <?php
 
+
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobsController;
 use Illuminate\Support\Facades\Route;
+
+
 
 // Public Home Page
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -38,8 +41,9 @@ Route::group(['prefix' => 'account'], function () {
         Route::get('/my-jobs/edit/{jobId}', [AccountController::class, 'editJob'])->name('account.editJob');
         Route::post('/update-job/{jobId}', [AccountController::class, 'updateJob'])->name('account.updateJob');
         Route::post('/delete-job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
-        Route::get('/account/my-job-applications', [AccountController::class, 'myJobApplication'])->name('account.myJobApplication');;
+        Route::get('/my-job-applications', [AccountController::class, 'myJobApplications'])->name('account.myJobApplications');
 
+        Route::post('/remove-job-application', [AccountController::class, 'removeJobs'])->name('account.removeJobs');
 
     });
 
