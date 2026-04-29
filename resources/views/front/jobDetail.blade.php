@@ -121,10 +121,26 @@ function applyJob(id){
         $.ajax({
             url : '{{ route("applyJob") }}',
             type : 'post',
-            data : {id:id},
+            data : {
+                id: id,
+                _token: '{{ csrf_token() }}'  // Add CSRF token
+            },
             dataType: 'json',
             success: function(response){
-                window.location.reload();
+                if(response.status == true) {
+                    window.location.reload();
+                } else {
+                    alert(response.message);
+                    window.location.reload();
+                }
+            },
+            error: function(xhr) {
+                // Handle errors
+                if(xhr.status === 419) {
+                    alert('Session expired. Please refresh the page.');
+                } else {
+                    alert('An error occurred. Please try again.');
+                }
             }
         });
     }

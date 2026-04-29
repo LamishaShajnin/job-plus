@@ -334,5 +334,9 @@ class AccountController extends Controller
         ]);
     }
 
+    public function myJobApplications(){
+        return view('front.account.job.my-job-applications');
+    }
+
     
 }

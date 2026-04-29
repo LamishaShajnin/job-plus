@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/jobs', [JobsController::class, 'index'])->name('jobs');
 Route::get('/jobs/detail/{id}', [JobsController::class, 'detail'])->name('jobDetail');
-Route::get('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob');
+Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob');
 
 // Account Related Routes
 Route::group(['prefix' => 'account'], function () {
@@ -38,6 +38,7 @@ Route::group(['prefix' => 'account'], function () {
         Route::get('/my-jobs/edit/{jobId}', [AccountController::class, 'editJob'])->name('account.editJob');
         Route::post('/update-job/{jobId}', [AccountController::class, 'updateJob'])->name('account.updateJob');
         Route::post('/delete-job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
+        Route::get('/account/my-job-applications', [AccountController::class, 'myJobApplication'])->name('account.myJobApplication');;
 
 
     });
