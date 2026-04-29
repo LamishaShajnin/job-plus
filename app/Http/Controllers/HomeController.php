@@ -10,8 +10,11 @@ class HomeController extends Controller
     //will show home page
     public function index(){
         $categories = Category::where('status',1)->orderBy('name','ASC')->take(8)->get();
+        $newCategories = Category::where('status',1)->orderBy('name','ASC')->get();
+        
         return view('front.home',[
-            'categories'=>$categories
+            'categories'=>$categories,
+            'newCategories' => $newCategories
         ]);
     }
 }

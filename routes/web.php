@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobsController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,11 @@ Route::get('/jobs', [JobsController::class, 'index'])->name('jobs');
 Route::get('/jobs/detail/{id}', [JobsController::class, 'detail'])->name('jobDetail');
 Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob');
 
+
+Route::group(['prefix' => 'admin','middleware'=>'checkRole'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+});
 // Account Related Routes
 Route::group(['prefix' => 'account'], function () {
 

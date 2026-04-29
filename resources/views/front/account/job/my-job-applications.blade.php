@@ -90,7 +90,7 @@
                                         @endforeach       
                                     @else
                                         <tr>
-                                            <td colspan="5" class="text-center">No jobs found. <a href="{{ route('account.createJob') }}">Post your first job</a></td>
+                                            <td colspan="5" class="text-center">Job applications Not found.</td>
                                         </tr>
                                     @endif
                                 </tbody>

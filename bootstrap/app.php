@@ -19,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // 2. If a user IS already logged in and tries to visit the login 
         // or register page, redirect them to their profile.
         $middleware->redirectUsersTo(fn () => route('account.profile'));
+        
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\CheckAdmin::class,
+        ]);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
