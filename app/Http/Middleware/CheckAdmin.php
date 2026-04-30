@@ -4,23 +4,27 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if user is authenticated
-        if ($request->user()->role !='admin') {
+        // First, check if user is logged in
+        /** @var \App\Models\User|null $user */
+        $user = Auth::user();
+        
+        if (!Auth::check()) {
             return redirect()->route('account.login');
         }
         
-        // Check if user has admin role
-        if (auth()->user()->role !== 'admin') {
-            session()->flash('error','You are not authorized to access this page.');
-            return redirect()->route('home');
+        // Second, check if logged-in user has admin role
+        if ($user && $user->role !== 'admin') {
+            return redirect()->route('home')->with('error', 'You do not have admin access.');
         }
         
+        // If both checks pass, allow access
         return $next($request);
     }
 }

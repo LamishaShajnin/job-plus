@@ -16,9 +16,8 @@ Route::get('/jobs/detail/{id}', [JobsController::class, 'detail'])->name('jobDet
 Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob');
 
 
-Route::group(['prefix' => 'admin','middleware'=>'checkRole'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
 });
 // Account Related Routes
 Route::group(['prefix' => 'account'], function () {
