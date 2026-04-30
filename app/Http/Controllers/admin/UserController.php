@@ -56,22 +56,29 @@ class UserController extends Controller
     }
 
     public function destroy(Request $request){
-        $id = $request->id;
+    $id = $request->id;
 
-        $user = User::find($id);
+    $user = User::find($id);
 
-        if ($user == null){
-            session()->flash('error','User not found');
-            return response()->json([
-                'status' => false,
-            ]);
-
+    if ($user == null){
+        session()->flash('error', 'User not found');
+        
+        // Check if AJAX request
+        if ($request->ajax()) {
+            return response()->json(['status' => false, 'message' => 'User not found']);
         }
-
-        $user->delete();
-        session()->flash('success','User deleted successfully');
-        return response()->json([
-                'status' => true,
-            ]);
+        
+        return redirect()->route('admin.users')->with('error', 'User not found');
     }
+
+    $user->delete();
+    session()->flash('success', 'User deleted successfully');
+    
+    // Check if AJAX request
+    if ($request->ajax()) {
+        return response()->json(['status' => true, 'message' => 'User deleted successfully']);
+    }
+    
+    return redirect()->route('admin.users')->with('success', 'User deleted successfully');
+    }   
 }

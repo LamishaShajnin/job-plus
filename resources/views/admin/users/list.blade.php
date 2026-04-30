@@ -73,7 +73,18 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
                                                         <li><a class="dropdown-item" href="{{ route("admin.users.edit", $user->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                        <li><a class="dropdown-item" href="#" onclick="deleteUser({{ $user->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
+                                                        <li>
+                                                            <li>
+                                                                <form action="{{ route('admin.users.destroy') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <input type="hidden" name="id" value="{{ $user->id }}">
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                        </li>
                                                     </ul> 
                                                 </div>
                                              </td>
@@ -102,23 +113,7 @@
 @endsection
 
 @section('customJs')
-<script type="text/javascript">
-    // Add CSRF Token to all AJAX headers
-    function deleteUser(id){
-        if(confirm("Are you sure you want to delete?")){
-            $.ajax({
-            url: '{{ route("admin.users.destroy") }}',
-            type: 'POST',
-            data: { id: id},
-            dataType: 'json',
-            success: function(response){
-                window.location.href = "{{ route('admin.users') }}";
-            }
-        });
-        }
-        
-            
-    }
+
         
 
 @endsection
