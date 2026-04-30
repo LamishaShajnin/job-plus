@@ -21,7 +21,7 @@ class CheckAdmin
         
         // Second, check if logged-in user has admin role
         if ($user && $user->role !== 'admin') {
-            return redirect()->route('home')->with('error', 'You do not have admin access.');
+            return redirect()->route('account.profile')->with('error', 'You are not authorized to access this page.');
         }
         
         // If both checks pass, allow access
