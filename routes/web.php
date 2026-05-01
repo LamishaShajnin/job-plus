@@ -4,8 +4,10 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\JobController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobsController;
+use App\Models\Job;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,8 +25,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::get('/users/{id}', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users', [UserController::class, 'destroy'])->name('admin.users.destroy');
-    Route::get('/jobs', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/jobs', [JobController::class, 'index'])->name('admin.jobs');
+    Route::get('/jobs/edit/{id}', [JobController::class, 'edit'])->name('admin.jobs.edit');
+    Route::put('/jobs/{id}', [JobController::class, 'update'])->name('admin.jobs.update');
 });
+
 // Account Related Routes
 
 
