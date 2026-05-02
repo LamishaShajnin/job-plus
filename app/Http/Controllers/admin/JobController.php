@@ -78,4 +78,31 @@ class JobController extends Controller
             ]);
         }
     }
+
+    public function destroy(Request $request){
+    $id = $request->id;
+
+    $job = Job::find($id);
+
+    if ($job == null){
+        session()->flash('error', 'User not found');
+        
+        // Check if AJAX request
+        if ($request->ajax()) {
+            return response()->json(['status' => false, 'message' => 'Job not found']);
+        }
+        
+        return redirect()->route('admin.jobs')->with('error', 'Job not found');
+    }
+
+    $job->delete();
+    session()->flash('success', 'Job deleted successfully');
+    
+    // Check if AJAX request
+    if ($request->ajax()) {
+        return response()->json(['status' => true, 'message' => 'Job deleted successfully']);
+    }
+    
+    return redirect()->route('admin.jobs')->with('success', 'Job deleted successfully');
+    }
 }

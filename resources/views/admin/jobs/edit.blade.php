@@ -8,7 +8,8 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route("admin.dashboard") }}">Home</a></li>
-                        <li class="breadcrumb-item active">Edit Job</li>
+                        <li class="breadcrumb-item"><a href="{{ route("admin.jobs") }}">Jobs</a></li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </nav>
             </div>
@@ -32,7 +33,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-                <form method="POST" action="{{ route('account.saveJob') }}" name="editJobForm" id="editJobForm">
+                <form method="POST" action="#" name="editJobForm" id="editJobForm">
                     @csrf
                     <div class="card border-0 shadow mb-4">
                         <div class="card-body card-form p-4">
@@ -171,11 +172,11 @@
         }
     });
 
-    $("#userForm").submit(function(e){
+    $("#editJobForm").submit(function(e){
         e.preventDefault();
-
+        
         $.ajax({
-            url: '{{ route("admin.jobs.update",$user->id) }}',
+            url: '{{ route("admin.jobs.update",$job->id) }}',
             type: 'PUT',
             data: $(this).serializeArray(),
             dataType: 'json',
@@ -188,26 +189,71 @@
                         .html('');
 
                     // Success Redirect
-                    window.location.href = "{{ route('admin.users') }}";
+                    window.location.href = "{{ route('admin.jobs') }}";
                 } else {
                     var errors = response.errors;
                     
-                    if (errors.name){
-                        $("#name").addClass('is-invalid')
+                    if (errors.title){
+                        $("#title").addClass('is-invalid')
                             .siblings('p')
                             .addClass('invalid-feedback')
-                            .html(errors.name);
+                            .html(errors.title);
                     } else {
-                        $("#name").removeClass('is-invalid').siblings('p').html('');
+                        $("#title").removeClass('is-invalid').siblings('p').html('');
                     }
 
-                    if (errors.email){
-                        $("#email").addClass('is-invalid')
+                    if (errors.category){
+                        $("#category").addClass('is-invalid')
                             .siblings('p')
                             .addClass('invalid-feedback')
-                            .html(errors.email);
+                            .html(errors.category);
                     } else {
-                        $("#email").removeClass('is-invalid').siblings('p').html('');
+                        $("#category").removeClass('is-invalid').siblings('p').html('');
+                    }
+
+                     if (errors.jobType){
+                        $("#jobType").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback')
+                            .html(errors.jobType);
+                    } else {
+                        $("#jobType").removeClass('is-invalid').siblings('p').html('');
+                    }
+
+                     if (errors.vacancy){
+                        $("#vacancy").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback')
+                            .html(errors.vacancy);
+                    } else {
+                        $("#vacancy").removeClass('is-invalid').siblings('p').html('');
+                    }
+
+                    if (errors.location){
+                        $("#location").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback')
+                            .html(errors.location);
+                    } else {
+                        $("#location").removeClass('is-invalid').siblings('p').html('');
+                    }
+
+                    if (errors.description){
+                        $("#description").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback')
+                            .html(errors.description);
+                    } else {
+                        $("#description").removeClass('is-invalid').siblings('p').html('');
+                    }
+
+                    if (errors.company_name){
+                        $("#company_name").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback')
+                            .html(errors.company_name);
+                    } else {
+                        $("#company_name").removeClass('is-invalid').siblings('p').html('');
                     }
                 }
             }
