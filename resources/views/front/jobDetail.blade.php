@@ -128,10 +128,19 @@ function applyJob(id){
             dataType: 'json',
             success: function(response){
                 if(response.status == true) {
-                    window.location.reload();
+                    // Show success message and disable apply button instead of reloading
+                    alert(response.message);
+                    // Disable the apply button
+                    $('.btn-primary').text('Applied').prop('disabled', true);
+                    // Optionally reload after a short delay to show updated status
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1500);
                 } else {
                     alert(response.message);
-                    window.location.reload();
+                    if(response.message.includes('already applied')) {
+                        $('.btn-primary').text('Already Applied').prop('disabled', true);
+                    }
                 }
             },
             error: function(xhr) {
