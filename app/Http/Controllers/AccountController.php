@@ -134,7 +134,7 @@ class AccountController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 
-        return redirect()->route('account.login')->with('success', 'You have been logged out.');
+        return redirect()->route('account.login');
     }
 
     public function updateProfilePic(Request $request)
