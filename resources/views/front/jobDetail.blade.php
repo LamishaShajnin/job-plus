@@ -62,7 +62,12 @@
                         </div>
                         <div class="border-bottom"></div>
                         <div class="pt-3 text-end">
-                            <a href="#" class="btn btn-secondary">Save</a>
+                            @if (Auth::check())
+                                <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary">Save</a>    
+                            @else
+                                <a href="javascript:void(0);" class="btn btn-secondary disabled">Login to Save</a>    
+                            @endif
+
                             @if (Auth::check())
                                 <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Apply</a>    
                             
@@ -155,6 +160,40 @@ function applyJob(id){
     }
 }
 
+
+function saveJob(id){
+    $.ajax({
+        url : '{{ route("saveJob") }}',
+        type : 'post',
+        data : {
+            id: id,
+            _token: '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success: function(response){
+            if(response.status == true) {
+                alert(response.message);
+                // Change the button text and disable it
+                $('.btn-secondary').text('Saved').prop('disabled', true);
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                alert(response.message);
+                if(response.message.includes('already saved')) {
+                    $('.btn-secondary').text('Already Saved').prop('disabled', true);
+                }
+            }
+        },
+        error: function(xhr) {
+            if(xhr.status === 419) {
+                alert('Session expired. Please refresh the page.');
+            } else {
+                alert('An error occurred. Please try again.');
+            }
+        }
+    });
+}
 </script>
 
 @endsection
