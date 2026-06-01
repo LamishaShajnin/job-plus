@@ -4,7 +4,7 @@ A full-featured job portal built with Laravel that seamlessly connects job seeke
 
 ## Project Overview
 
-**Project Name:** JobPlus  
+**Project Name:** CareerVibe  
 **Platform Type:** Web-based Job Portal  
 **Objective:** To develop a full-featured platform where users can register, log in, search for jobs using multiple criteria, and post jobs if they have a business. The admin manages the entire system, including user profiles and job postings.
 
