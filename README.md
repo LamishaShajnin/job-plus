@@ -64,8 +64,8 @@ Make sure you have the following installed on your local system:
 - **PHP** >= 8.2
 - **Composer** (Dependency manager for PHP)
 - **MySQL** (Database server)
-- **XAMPP / WAMP / Laragon** (Local web server environment)
-- **Node.js & NPM** (for compiling frontend assets)
+- **XAMPP** (Local web server environment)
+
 
 ## Installation Guide (For Localhost)
 
