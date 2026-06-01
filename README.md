@@ -1,56 +1,78 @@
-# Job Plus - Job Seeker & Recruiter Platform
+# JobPlus - Job Seeker & Employer Platform
 
-A full-featured job portal platform built with Laravel that connects job seekers and employers seamlessly.
+A full-featured job portal built with Laravel that seamlessly connects job seekers with employers. The platform provides role-based dashboards for Job Seekers, Employers, and Administrators, enabling job searching, application management, job posting, and full system control.
 
-## Features
+## Project Overview
+
+**Project Name:** JobPlus  
+**Platform Type:** Web-based Job Portal  
+**Objective:** To develop a full-featured platform where users can register, log in, search for jobs using multiple criteria, and post jobs if they have a business. The admin manages the entire system, including user profiles and job postings.
+
+## Core Features
 
 ### For Job Seekers
-- Browse and search jobs by category, location, or keywords
-- Create and manage professional profile with resume upload
-- Apply to jobs with one click
-- Track application status in real-time
-- Save favorite jobs for later
-- View application history
+- Browse and search jobs by keywords, location, and category.
+- View detailed job descriptions.
+- Apply for jobs with a single click.
+- Save favorite jobs to apply later.
+- Track all applied jobs and their status.
+- Manage profile, upload a profile picture, and change password.
 
-### For Employers/Recruiters
-- Post and manage job listings
-- Review incoming applications
-- Shortlist or reject applicants
-- Manage company profile
-- View applicant analytics and statistics
-- Communicate with job seekers
+### For Employers
+- Post new job listings with detailed descriptions.
+- Manage own job posts (Edit, Delete, View).
+- View number of applicants per job post.
+- Manage company representative profile.
 
-### For Admins
-- Approve/reject job postings
-- Manage all users (job seekers & employers)
-- Manage job categories
-- Generate reports and analytics
-- Site-wide settings management
+### For Administrators
+- View, edit, and delete all registered users.
+- View, edit, delete, approve, or reject all job postings.
+- Maintain platform integrity and manage inappropriate content.
 
-## Tech Stack
+## Technical Stack
 
-- **Backend**: Laravel 11.x (PHP 8.2+)
-- **Database**: MySQL
-- **Frontend**: Blade Templates, Bootstrap 5.3
-- **Authentication**: Laravel Breeze/Jetstream
-- **Storage**: Laravel Filesystem (for resumes & company logos)
-- **Email**: Laravel Mail (SMTP)
-- **Security**: CSRF protection, prepared statements, role-based middleware
+| Component       | Technology                                    |
+|----------------|-----------------------------------------------|
+| Backend        | Laravel 12, PHP 8.2+                          |
+| Database       | MySQL                                         |
+| Frontend       | Blade Templates, Bootstrap 5, Tailwind CSS    |
+| Build Tool     | Vite                                          |
+| Authentication | Laravel built-in Auth (Breeze/Jetstream style)|
+| Security       | CSRF, Middleware, Prepared Statements         |
 
-## Installation
+## System Pages & Access Rights
 
-### 1. Prerequisites
+| Page Name                | Guest | Job Seeker | Employer | Admin |
+|--------------------------|-------|------------|----------|-------|
+| Home Page                | ✓     | ✓          | ✓        | ✓     |
+| Login Page               | ✓     | ✗          | ✗        | ✗     |
+| Register Page            | ✓     | ✗          | ✗        | ✗     |
+| Job Listing Page         | ✓     | ✓          | ✓        | ✓     |
+| Job Detail Page          | ✓     | ✓          | ✓        | ✓     |
+| Post a Job Page          | ✗     | ✗          | ✓        | ✓     |
+| My Jobs Page             | ✗     | ✗          | ✓        | ✓     |
+| Jobs Applied Page        | ✗     | ✓          | ✗        | ✓     |
+| Saved Jobs Page          | ✗     | ✓          | ✗        | ✓     |
+| Account Settings Page    | ✗     | ✓          | ✓        | ✓     |
+| Admin Users Management   | ✗     | ✗          | ✗        | ✓     |
+| Admin Jobs Management    | ✗     | ✗          | ✗        | ✓     |
 
-Make sure you have installed:
-- PHP >= 8.2
-- Composer
-- MySQL
-- XAMPP
+## Prerequisites
 
-### 2. Clone the Repository
+Make sure you have the following installed on your local system:
+
+- **PHP** >= 8.2
+- **Composer** (Dependency manager for PHP)
+- **MySQL** (Database server)
+- **XAMPP / WAMP / Laragon** (Local web server environment)
+- **Node.js & NPM** (for compiling frontend assets)
+
+## Installation Guide (For Localhost)
+
+Follow these steps to run the project on your local machine.
+
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/job-portal.git
-cd job-portal
-
-
+git clone https://github.com/yourusername/jobplus.git
+cd jobplus
